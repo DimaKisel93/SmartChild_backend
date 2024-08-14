@@ -1,6 +1,7 @@
 from pathlib import Path
 import environ
-from SmartChild_backend.constants import DB_HOST_ENV, DB_NAME_ENV, DB_PASSWORD_ENV, DB_PORT_ENV, DB_USER_ENV, FIREBASE_API_KEY_ENV, FIREBASE_APP_ID_ENV, FIREBASE_AUTH_DOMAIN_ENV, FIREBASE_MESSAGING_SENDER_ID_ENV, FIREBASE_PROJECT_ID_ENV, FIREBASE_STORAGE_BUCKET_ENV, SECRET_KEY_ENV
+import dj_database_url
+from SmartChild_backend.constants import DATABASE_URL_ENV, DB_HOST_ENV, DB_NAME_ENV, DB_PASSWORD_ENV, DB_PORT_ENV, DB_USER_ENV, FIREBASE_API_KEY_ENV, FIREBASE_APP_ID_ENV, FIREBASE_AUTH_DOMAIN_ENV, FIREBASE_MESSAGING_SENDER_ID_ENV, FIREBASE_PROJECT_ID_ENV, FIREBASE_STORAGE_BUCKET_ENV, SECRET_KEY_ENV
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -60,16 +61,8 @@ TEMPLATES = [
 WSGI_APPLICATION = 'SmartChild_backend.wsgi.application'
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': env(DB_NAME_ENV),
-        'USER': env(DB_USER_ENV),
-        'PASSWORD': env(DB_PASSWORD_ENV),
-        'HOST': env(DB_HOST_ENV, default='localhost'),
-        'PORT': env(DB_PORT_ENV, default='5432'),
-    }
+    'default': dj_database_url.config(default=env(DATABASE_URL_ENV))
 }
-
 
 AUTH_PASSWORD_VALIDATORS = [
     {
